@@ -59,62 +59,62 @@ def process_image(image_path,prompt_type):
 
 # Process all images in the folder
 def eagle_csv_generator(folder_path,output_csv,prompt,face_feature_list):
-    # data = []
-    # temp=0
-    # for filename in os.listdir(folder_path):
-    #     if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-    #         image_path = os.path.join(folder_path, filename)
-    #         description = process_image(image_path,prompt)
-    #         # logger.debug(description)
-    #         description = str(description)
-    #         description_list =  description.split(";")
-    #         logger.debug(description_list)
-    #         # for i in range(len(description_list)):
-    #         #     logger.error(str(description_list[i]))
-    #         list(map(str,description_list))
-    #         # for i in range(len(description_list)):
-    #         #     logger.info((str(description_list[i])).split(":")[1])
-    #         facial_dict = {"image_path": image_path}
-    #         for feature,descr in zip(face_feature_list,description_list):
-    #             facial_dict[feature]=descr.split(":")[1]
-    #         data.append(facial_dict)
-    #         print(f"Processed {image_path}")
-    #         temp=temp+1
-    #         logger.debug(temp)
-    # logger.info(data)
-    # with open(output_csv, mode='w', newline='') as file:
-    #     face_feature_list.insert(0,"image_path")
-    #     writer = csv.DictWriter(file, fieldnames=face_feature_list)
-    #     writer.writeheader()
-    #     writer.writerows(data)
-
-    face_feature_list_with_path = ["image_path"] + face_feature_list  # Ensure image_path is first
-
-    with open(output_csv, mode='a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=face_feature_list_with_path)
+    data = []
+    temp=0
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+            image_path = os.path.join(folder_path, filename)
+            description = process_image(image_path,prompt)
+            # logger.debug(description)
+            description = str(description)
+            description_list =  description.split(";")
+            logger.debug(description_list)
+            # for i in range(len(description_list)):
+            #     logger.error(str(description_list[i]))
+            list(map(str,description_list))
+            # for i in range(len(description_list)):
+            #     logger.info((str(description_list[i])).split(":")[1])
+            facial_dict = {"image_path": image_path}
+            for feature,descr in zip(face_feature_list,description_list):
+                facial_dict[feature]=descr.split(":")[1]
+            data.append(facial_dict)
+            print(f"Processed {image_path}")
+            temp=temp+1
+            logger.debug(temp)
+    logger.info(data)
+    with open(output_csv, mode='w', newline='') as file:
+        face_feature_list.insert(0,"image_path")
+        writer = csv.DictWriter(file, fieldnames=face_feature_list)
         writer.writeheader()
+        writer.writerows(data)
 
-        for count, filename in enumerate(os.listdir(folder_path), start=1):
-            if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-                image_path = os.path.join(folder_path, filename)
-                try:
-                    description = process_image(image_path, prompt)
-                    description_list = str(description).split(";")
-                    logger.debug(description_list)
+    # face_feature_list_with_path = ["image_path"] + face_feature_list  # Ensure image_path is first
 
-                    facial_dict = {"image_path": image_path}
-                    for feature, descr in zip(face_feature_list, description_list):
-                        key_value = descr.split(":")
-                        if len(key_value) == 2:
-                            facial_dict[feature] = key_value[1].strip()
-                        else:
-                            facial_dict[feature] = ""
+    # with open(output_csv, mode='a', newline='') as file:
+    #     writer = csv.DictWriter(file, fieldnames=face_feature_list_with_path)
+    #     writer.writeheader()
 
-                    writer.writerow(facial_dict)
-                    print(f"Processed and saved {image_path}")
-                    logger.debug(f"Processed count: {count}")
+    #     for count, filename in enumerate(os.listdir(folder_path), start=1):
+    #         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+    #             image_path = os.path.join(folder_path, filename)
+    #             try:
+    #                 description = process_image(image_path, prompt)
+    #                 description_list = str(description).split(";")
+    #                 logger.debug(description_list)
 
-                except Exception as e:
-                    logger.error(f"Failed to process {image_path}: {e}")
+    #                 facial_dict = {"image_path": image_path}
+    #                 for feature, descr in zip(face_feature_list, description_list):
+    #                     key_value = descr.split(":")
+    #                     if len(key_value) == 2:
+    #                         facial_dict[feature] = key_value[1].strip()
+    #                     else:
+    #                         facial_dict[feature] = ""
 
-    print(f"Descriptions saved to {output_csv}")
+    #                 writer.writerow(facial_dict)
+    #                 print(f"Processed and saved {image_path}")
+    #                 logger.debug(f"Processed count: {count}")
+
+    #             except Exception as e:
+    #                 logger.error(f"Failed to process {image_path}: {e}")
+
+    # print(f"Descriptions saved to {output_csv}")
