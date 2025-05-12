@@ -1,6 +1,6 @@
 import csv
 from prompts import*
-from predict_demo2 import*
+from Eagle1.predictdemo_new import *
 from loguru import logger
 
 folder_path = "CelebA_dataset_remaining"  # Path to the folder containing images
